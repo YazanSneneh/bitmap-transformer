@@ -14,39 +14,54 @@ import java.nio.file.Paths;
 
 public class App {
 
-
     public static void main(String[] args) {
         Path path = Paths.get("sample.bmp");
         String theme = "Multiply a Hue";
+        String tems = "zoom";
         String newPath ="./app/src/main/resources/multiHue.bmp";
-        imageReading(path, newPath,theme );
+        imageReading(path, newPath,tems );
 
     }
 
     public static void imageReading(Path path, String newPath, String theme){
         try {
-               BufferedImage image = ImageIO.read(path.toFile());
-               int width = image.getWidth();
-               int height = image.getHeight();
+            BufferedImage image = ImageIO.read(path.toFile());
+            int width = image.getWidth();
+            int height = image.getHeight();
+            if(theme=="zoom"){
+
+                for(int row =1; row < width;row++){
+                    for( int col =1; col< height; col++){
+
+                        Color color = new Color(image.getRGB(row,col));
+                        int green = color.getGreen();
+                        int red = color.getRed();
+                        int yallo = color.getAlpha();
 
 
-                 for(int row =1; row < width;row++){
-                     for( int col =1; col< height; col++){
+                        image.setRGB(row, col,red);
+                    }
+                }}
 
-                         Color color = new Color(image.getRGB(row,col));
+            if(theme=="Multiply a Hue"){
+                for(int row =1; row < width;row++){
+                    for( int col =1; col< height; col++){
 
-                          int red = color.getRed();
-                          int blue = color.getBlue();
-                          int green = color.getGreen();
-                          int newVals = (red) + (green)+(blue);
-                         image.setRGB(row, col, red);
-                     }
-                 }
+                        Color color = new Color(image.getRGB(row,col));
+
+                        int red = color.getRed();
+                        int blue = color.getBlue();
+                        int green = color.getGreen();
+                        int newVals = (red) + (green)+(blue);
+                        image.setRGB(row, col, red);
+                    }
+                }}
             imageWrite( image,theme );
-          }catch(Exception ex){
-               System.out.println("Error :" + ex);
-           }
-   }
+
+        }catch(Exception ex){
+            System.out.println("Error :" + ex);
+        }
+    }
     public static void imageWrite(BufferedImage result,String targetName) {
 
         File output = new File("./app/src/main/resources/"+targetName+".bmp");
@@ -57,6 +72,7 @@ public class App {
             System.out.println(e);
         }
     }
+
 
 
 }
