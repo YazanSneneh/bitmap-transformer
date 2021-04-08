@@ -14,12 +14,14 @@ import java.nio.file.Paths;
 
 public class App {
 
+
     public static void main(String[] args) {
         Path path = Paths.get("sample.bmp");
         String theme = "Multiply a Hue";
         String tems = "zoom";
+        String color = "color";
         String newPath ="./app/src/main/resources/multiHue.bmp";
-        imageReading(path, newPath,tems );
+        imageReading(path, newPath,color );
 
     }
 
@@ -28,18 +30,23 @@ public class App {
             BufferedImage image = ImageIO.read(path.toFile());
             int width = image.getWidth();
             int height = image.getHeight();
-            if(theme=="zoom"){
 
-                for(int row =1; row < width;row++){
-                    for( int col =1; col< height; col++){
+            if(theme=="color"){
+                for(int row =1; row < width/2;row++){
+                    for( int col =1; col< height; col=col+4){
 
                         Color color = new Color(image.getRGB(row,col));
-                        int green = color.getGreen();
-                        int red = color.getRed();
-                        int yallo = color.getAlpha();
+                        image.setRGB(row, col, 255058190);
+                    }
+                }}
 
+            if(theme=="zoom"){
 
-                        image.setRGB(row, col,red);
+                for(int row =1; row < width;row=row+2){
+                    for( int col =1; col< height; col=col+2){
+
+                        Color color = new Color(image.getRGB(row,col));
+                        image.setRGB(row, col,255058190);
                     }
                 }}
 
@@ -48,11 +55,7 @@ public class App {
                     for( int col =1; col< height; col++){
 
                         Color color = new Color(image.getRGB(row,col));
-
                         int red = color.getRed();
-                        int blue = color.getBlue();
-                        int green = color.getGreen();
-                        int newVals = (red) + (green)+(blue);
                         image.setRGB(row, col, red);
                     }
                 }}
@@ -72,7 +75,6 @@ public class App {
             System.out.println(e);
         }
     }
-
 
 
 }
